@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import AVKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
@@ -39,6 +41,7 @@ class ViewController: UIViewController {
         dataTask.resume()
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -59,7 +62,20 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("you tapped me")
+        let cell = tableView.cellForRow(at: indexPath) as! EntryCard
+        let text = cell.label?.text
+        print(text ?? "No data")
+        let videoURL = URL(string: "https://vaulttube.dyslexicjedi.com/videos/UCTTd4oNtoAUDf-DJTnpPsUQ/AUAomFPmu5Q.mp4")
+        let player = AVPlayer(url: videoURL!)
+        let playerViewController = AVPlayerViewController()
+        playerViewController.player = player
+        view.addSubview(playerViewController.view)
+        self.present(playerViewController, animated: true) {
+            playerViewController.player!.play()
+        }
+//        if let vc = storyboard?.instantiateViewController(withIdentifier: "videoController") as? AVPlayerViewController{
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
     }
 }
 
